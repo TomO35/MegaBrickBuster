@@ -12,17 +12,19 @@ import org.newdawn.slick.geom.Rectangle;
 public class Stick extends Rectangle {
 	
 	private static float speed = 50f;
+	Image img;
 
 	public Stick(float x, float y, float width, float height) {
 		super(x, y, width, height);
-	}
-	
-	public void render(Graphics g) {
 		try {
-			g.drawImage(new Image("res/Stick.png"), x, y);
+			img = new Image("res/Stick.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void render(Graphics g) {
+		g.drawImage(img, x, y);
 	}
 	
 	public void update(Input input, int winX, int arg1) {

@@ -1,4 +1,4 @@
-package fr.mds.megabrickbuster.launcher;
+package game;
 
 import java.util.ArrayList;
 

@@ -11,16 +11,20 @@ import org.newdawn.slick.geom.Rectangle;
  */
 
 public class Brick extends Rectangle {
+	
+	Image img;
 
 	public Brick(float x, float y, float width, float height) {
 		super(x, y, width, height);
+		try {
+			img = new Image("res/Brick.jpg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void render(Graphics g) {
-		try {
-			g.drawImage(new Image("res/Brick.jpg"), x, y);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		g.drawImage(img, x, y);
 	}
 }

@@ -6,6 +6,8 @@ import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
+import game.Game;
+
 public class BrickBusterLauncher {
 	
 	private static int WINDOW_SIZE_X = 570;
