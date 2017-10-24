@@ -2,6 +2,8 @@ package fr.mds.megabrickbuster.model;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
 
@@ -15,6 +17,7 @@ public class Ball extends Circle {
 	
 	private boolean isMoving, isOut;
 	private float speedX, speedY;
+	private Image img;
 	
 	public Ball(float centerPointX, float centerPointY, float radius, float speedX, float speedY) {
 		super(centerPointX, centerPointY, radius);
@@ -22,6 +25,12 @@ public class Ball extends Circle {
 		isOut = false;
 		this.speedX = speedX;
 		this.speedY = speedY;
+		try {
+			this.img = new Image("res/Ball.jpg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public boolean isMoving() {
@@ -43,7 +52,7 @@ public class Ball extends Circle {
 	public void render(Graphics g) {
 		g.draw(this);
 		g.setColor(Color.red);
-		//g.drawImage(new Image("res/Ball.jpg"), x, y);
+		//g.drawImage(img, x, y);
 	}
 	
 	public void move() {
