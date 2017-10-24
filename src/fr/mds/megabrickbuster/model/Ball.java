@@ -14,11 +14,14 @@ import org.newdawn.slick.geom.Circle;
 public class Ball extends Circle {
 	
 	private boolean isMoving, isOut;
+	private float speedX, speedY;
 	
-	public Ball(float centerPointX, float centerPointY, float radius) {
+	public Ball(float centerPointX, float centerPointY, float radius, float speedX, float speedY) {
 		super(centerPointX, centerPointY, radius);
 		isMoving = false;
 		isOut = false;
+		this.speedX = speedX;
+		this.speedY = speedY;
 	}
 
 	public boolean isMoving() {
@@ -42,5 +45,41 @@ public class Ball extends Circle {
 		g.setColor(Color.red);
 		//g.drawImage(new Image("res/Ball.jpg"), x, y);
 	}
+	
+	public void move() {
+		setCenterX(getCenterX() + speedX);
+		setCenterY(getCenterY() + speedY);
+	}
+	
+	public void bounce(String s) {
+		if (s == "x") {
+			speedX = -speedX;
+		}
+		else if (s == "y") {
+			speedY = -speedY;
+		}
+		else if (s == "angle") {
+			float f = speedX;
+			speedX = speedY;
+			speedY = f;
+		}
+	}
 
+	public float getSpeedX() {
+		return speedX;
+	}
+
+	public void setSpeedX(float speedX) {
+		this.speedX = speedX;
+	}
+
+	public float getSpeedY() {
+		return speedY;
+	}
+
+	public void setSpeedY(float speedY) {
+		this.speedY = speedY;
+	}
+	
+	
 }

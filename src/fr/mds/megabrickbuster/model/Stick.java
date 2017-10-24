@@ -10,6 +10,8 @@ import org.newdawn.slick.geom.Rectangle;
  * The stick is an element moved by the gamer.
  */
 public class Stick extends Rectangle {
+	
+	private static float speed = 50f;
 
 	public Stick(float x, float y, float width, float height) {
 		super(x, y, width, height);
@@ -26,12 +28,12 @@ public class Stick extends Rectangle {
 	public void update(Input input, int winX, int arg1) {
 		if (input.isKeyDown(Input.KEY_RIGHT)) {
 			if (getX() + getWidth() < winX) {
-				setX(getX() + 0.2f * arg1);
+				setX(getX() + speed * arg1/1000);
 			}
 		}
 		if (input.isKeyDown(Input.KEY_LEFT)) {
 			if (getX() > 0) {
-				setX(getX() - 0.2f * arg1);
+				setX(getX() - speed * arg1/1000);
 			}
 		}
 	}
