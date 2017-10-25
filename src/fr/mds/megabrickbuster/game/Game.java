@@ -1,4 +1,4 @@
-package game;
+package fr.mds.megabrickbuster.game;
 
 import java.util.ArrayList;
 
@@ -73,7 +73,6 @@ public class Game extends BasicGame {
 			balls.add(ball1);
 			balls.add(ball2);
 		}
-		
 	}
 
 	@Override

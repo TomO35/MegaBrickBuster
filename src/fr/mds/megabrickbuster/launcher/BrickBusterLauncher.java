@@ -6,7 +6,7 @@ import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
-import game.Game;
+import fr.mds.megabrickbuster.game.Game;
 
 public class BrickBusterLauncher {
 	

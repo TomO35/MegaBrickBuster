@@ -1,4 +1,4 @@
-package game;
+package fr.mds.megabrickbuster.game;
 
 import java.awt.Rectangle;
 
