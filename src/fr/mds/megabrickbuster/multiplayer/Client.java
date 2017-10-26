@@ -7,20 +7,22 @@ import java.net.Socket;
 
 public class Client {
 	
-	public static void main(String[] args) {
+	private Socket socket;
+	private DataOutputStream out;
+	
+	public Client() {
 		
-		Socket socket;
-		DataOutputStream out;
-		
+	}
+	
+	public void getServerConnection(String Ipv4) {
 		try {
-			String Ipv4 = InetAddress.getLocalHost().getHostAddress();
-			socket = new Socket(InetAddress.getByName(Ipv4),2009);
+			socket = new Socket(InetAddress.getByName(Ipv4),2005);
 			out = new DataOutputStream(socket.getOutputStream());
-	        out.writeFloat(42);
-	        out.flush();
+			out.writeFloat(42);
+			out.flush();
 	        socket.close();
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}	
 }

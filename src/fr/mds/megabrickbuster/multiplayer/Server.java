@@ -9,25 +9,37 @@ import java.net.UnknownHostException;
 
 public class Server {
 	
-	public static void main(String[] args) {
+	private ServerSocket serversocket;
+	private Socket socket;
+	private DataInputStream in;
+	
+	public Server() {
 		
-		ServerSocket serversocket;
-		Socket socket;
-		DataInputStream in;
-		
-		try {
-			String Ipv4 = InetAddress.getLocalHost().getHostAddress();
-			serversocket = new ServerSocket(2009, 1, InetAddress.getByName(Ipv4));
-			socket = serversocket.accept();
-			in = new DataInputStream  (new DataInputStream  (socket.getInputStream()));
-	        float message_distant = in.readInt();
-	        System.out.println("ça marche !!!! : " +message_distant);
-	        socket.close();
-	        serversocket.close();
-		}catch (UnknownHostException e) {
-			e.printStackTrace();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
+	
+		public String getIpv4() {
+			try {
+				String Ipv4 = InetAddress.getLocalHost().getHostAddress();
+				return Ipv4;
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		public void getClientConnection(String Ipv4) {
+			try {
+				serversocket = new ServerSocket(2005, 1, InetAddress.getByName(Ipv4));
+				socket = serversocket.accept();
+				in = new DataInputStream  (new DataInputStream  (socket.getInputStream()));
+		        float message_distant = in.readInt();
+		        System.out.println("ça marche !!!! : " +message_distant);
+		        socket.close();
+		        serversocket.close();
+			}catch (UnknownHostException e) {
+				e.printStackTrace();
+			}catch (IOException e) {
+				e.printStackTrace();
+			}
+		}	
 }
