@@ -9,7 +9,7 @@ import org.newdawn.slick.geom.Circle;
 
 /***
  * The Ball is the free moving element of the game.
- * The ball tells us to things :
+ * The ball tells us two things :
  * If it is moving and if it is out of screen.
  */
 
