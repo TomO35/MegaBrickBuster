@@ -12,7 +12,7 @@ import org.newdawn.slick.geom.Rectangle;
 public class Stick extends Rectangle {
 	
 	private static float speed = 200f;
-	Image img;
+	private Image img;
 
 	public Stick(float x, float y, float width, float height) {
 		super(x, y, width, height);

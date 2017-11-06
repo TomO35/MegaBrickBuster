@@ -28,7 +28,6 @@ public class Ball extends Circle {
 		try {
 			this.img = new Image("res/Ball.jpg");
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

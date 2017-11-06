@@ -7,12 +7,14 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 
 import fr.mds.megabrickbuster.model.Ball;
 import fr.mds.megabrickbuster.model.Brick;
 import fr.mds.megabrickbuster.model.Stick;
 
-public class Game extends BasicGame {
+public class Game extends BasicGameState {
 	
 	private static int SPACE = 10;
 	private static int BRICK_SIZE_X = 30;
@@ -20,6 +22,8 @@ public class Game extends BasicGame {
 	private static int STICK_SIZE_X = 100;
 	private static int STICK_SIZE_Y = 14;
 	private static int BALL_RADIUS = 7;
+	
+	private static int STATE = 1;
 	
 	private int nbGamer;
 	private ArrayList<Brick> bricks = new ArrayList<>();
@@ -35,15 +39,15 @@ public class Game extends BasicGame {
 	
 	private int lives = 3;
 	
-	public Game(String title, int windowSizeX, int windowSizeY, int nbGamer) {
-		super(title);
+	public Game(int state, int windowSizeX, int windowSizeY, int nbGamer) {
+		this.STATE = state;
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
 		this.nbGamer = nbGamer;
 	}
 
 	@Override
-	public void init(GameContainer arg0) throws SlickException {
+	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		int x = SPACE;
 		int y = SPACE;
 		// Create several new bricks for the game
@@ -52,7 +56,7 @@ public class Game extends BasicGame {
 			x += BRICK_SIZE_X + SPACE;
 			if (x >= windowSizeX) {
 				x = SPACE;
-				y += BRICK_SIZE_Y + SPACE;
+				y += BRICK_SIZE_Y + SPACE; 
 			}
 		}
 		brickMaxY = y;
@@ -76,21 +80,21 @@ public class Game extends BasicGame {
 	}
 
 	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		// Each object has its own rendering method
 		for (Brick brick : bricks) {
-			brick.render(arg1);
+			brick.render(arg2);
 		}
 		for (Ball ball : balls) {
-			ball.render(arg1);
+			ball.render(arg2);
 		}
 		for (Stick stick : sticks) {
-			stick.render(arg1);
+			stick.render(arg2);
 		}
 	}
 
 	@Override
-	public void update(GameContainer arg0, int arg1) throws SlickException {
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
 		input = arg0.getInput();
 		
 		// Get an input for start game
@@ -104,7 +108,7 @@ public class Game extends BasicGame {
 		
 		// Get input about moving the stick
 		for (Stick stick : sticks) {
-			stick.update(input, windowSizeX, arg1);
+			stick.update(input, windowSizeX, arg2);
 		}
 		
 		Ball deadBall = null;
@@ -192,6 +196,11 @@ public class Game extends BasicGame {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int getID() {
+		return STATE;
 	}
 	
 }

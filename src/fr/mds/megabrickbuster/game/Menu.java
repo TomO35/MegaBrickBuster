@@ -1,18 +1,20 @@
-package fr.mds.megabrickbuster.game;
+ package fr.mds.megabrickbuster.game;
 
 import java.awt.Rectangle;
 
-import org.newdawn.slick.AppGameContainer;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Menu extends BasicGameState {
+import fr.mds.megabrickbuster.launcher.BrickBusterLauncher;
 
-	private static int WINDOW_SIZE_X = 570;
-	private static int WINDOW_SIZE_Y = 500;
+public class Menu extends BasicGameState {
+	
+	private static int STATE = 0;
 
 	Rectangle solo;
 	Rectangle multi;
@@ -21,7 +23,6 @@ public class Menu extends BasicGameState {
 	Rectangle exit;
 	
 	public Menu(int state) {
-		
 	}
 	
 	@Override
@@ -30,36 +31,30 @@ public class Menu extends BasicGameState {
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		arg2.drawString("Solo", 50, 20);
-		arg2.drawString("Multi", 50, 45);
-		arg2.drawString("Scores", 50, 70);
-		arg2.drawString("Options", 50, 95);
-		arg2.drawString("Exit", 50, 120);
+		arg2.drawString(BrickBusterLauncher.name, 230, 20);
+		arg2.drawString("Solo", 100, 120);
+		arg2.drawString("Multi", 100, 145);
+		arg2.drawString("Scores", 100, 170);
+		arg2.drawString("Options", 100, 195);
+		arg2.drawString("Exit", 100, 220);
 	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		Input input = arg0.getInput();
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		if((posX > 100 && posX < 120) && (posY > 120 && posY < 200)) {
+			if (input.isMouseButtonDown(0)) {
+				arg1.enterState(BrickBusterLauncher.solo);
+			}
+			
+		}		
 	}
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	public void goSolo() {
-		try {
-			AppGameContainer app = new AppGameContainer(new Game("Mega BrickBuster Solo", WINDOW_SIZE_X, WINDOW_SIZE_Y, 1));
-			app.setDisplayMode(WINDOW_SIZE_X, WINDOW_SIZE_Y, false);
-			app.setTargetFrameRate(60);
-			app.setVSync(true);
-			app.setShowFPS(false);
-			app.start();
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		return STATE;
 	}
 
 }
