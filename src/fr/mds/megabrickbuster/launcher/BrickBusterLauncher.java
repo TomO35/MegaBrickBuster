@@ -13,8 +13,8 @@ import fr.mds.megabrickbuster.game.Menu;
 
 public class BrickBusterLauncher extends StateBasedGame {
 
-	private static int WINDOW_SIZE_X = 570;
-	private static int WINDOW_SIZE_Y = 500;
+	public static int WINDOW_SIZE_X = 570;
+	public static int WINDOW_SIZE_Y = 500;
 	
 	public static final String name = "Mega BrickBuster";
 	public static final int menu = 0;

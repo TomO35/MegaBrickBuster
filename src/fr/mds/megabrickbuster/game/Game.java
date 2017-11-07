@@ -3,6 +3,7 @@ package fr.mds.megabrickbuster.game;
 import java.util.ArrayList;
 
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -10,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.mds.megabrickbuster.launcher.BrickBusterLauncher;
 import fr.mds.megabrickbuster.model.Ball;
 import fr.mds.megabrickbuster.model.Brick;
 import fr.mds.megabrickbuster.model.Stick;
@@ -38,6 +40,7 @@ public class Game extends BasicGameState {
 	private int brickMaxY;
 	
 	private int lives = 3;
+	private int score = 0;
 	
 	public Game(int state, int windowSizeX, int windowSizeY, int nbGamer) {
 		this.STATE = state;
@@ -81,6 +84,8 @@ public class Game extends BasicGameState {
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
+		arg2.drawString("Lives = " + lives + " | Score = " + score, 5, (BrickBusterLauncher.WINDOW_SIZE_Y - 30));
+		arg2.setColor(Color.red);
 		// Each object has its own rendering method
 		for (Brick brick : bricks) {
 			brick.render(arg2);
@@ -106,6 +111,11 @@ public class Game extends BasicGameState {
 			}
 		}
 		
+		// Get an input to pause game
+		if (input.isKeyDown(Input.KEY_P)) {
+			arg1.enterState(BrickBusterLauncher.menu);
+		}
+		
 		// Get input about moving the stick
 		for (Stick stick : sticks) {
 			stick.update(input, windowSizeX, arg2);
@@ -117,6 +127,7 @@ public class Game extends BasicGameState {
 			if (ball.isMoving()) {	
 				
 				deadBall = ballToBorder(ball);
+				
 				for(Stick stick : sticks) {
 					ballToStick(ball, stick);
 				}
@@ -141,6 +152,12 @@ public class Game extends BasicGameState {
 		if (deadBall != null) {
 			balls.remove(deadBall);
 			balls.add(new Ball(windowSizeX / 2, windowSizeY - STICK_SIZE_Y * 3, BALL_RADIUS, initialSpeedX, initialSpeedY));
+			if(lives > 0) {
+				lives -= 1;
+				if(lives <= 0) {
+					//TODO GAME OVER - display screen
+				}
+			}
 		}
 	}
 
@@ -158,6 +175,11 @@ public class Game extends BasicGameState {
 				else {
 					ball.bounce("angle");
 				}
+				if(score == 0) {
+					score = 1;
+				} else {
+					score *= 2;
+				}
 				return brick;
 			}
 		}
@@ -165,7 +187,7 @@ public class Game extends BasicGameState {
 	}
 
 	// Handle collision with the stick
-	public void ballToStick(Ball ball,Stick stick) {
+	public void ballToStick(Ball ball, Stick stick) {
 		if (ball.intersects(stick)) {
 //			if (ball.getCenterX() >= stick.getX() && ball.getCenterX() <= stick.getMaxX()) {
 //				ball.setSpeedX(ball.getSpeedX() - (stick.getCenterX() - ball.getCenterX()));
@@ -187,13 +209,7 @@ public class Game extends BasicGameState {
 			ball.bounce("y");
 		}
 		if (ball.getMinY() > windowSizeY) {
-			if(lives > 0) {
-				lives -= 1;
-				if(lives <= 0) {
-					//TODO GAME OVER - display screen
-				}
-				return ball;
-			}
+			return ball;
 		}
 		return null;
 	}
