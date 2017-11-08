@@ -131,6 +131,7 @@ public class Game extends BasicGameState {
 				for(Stick stick : sticks) {
 					ballToStick(ball, stick);
 				}
+				
 				// Check if there are still bricks
 				if (ball.getMinY() <= brickMaxY) {
 					if (bricks.size() > 0) {
