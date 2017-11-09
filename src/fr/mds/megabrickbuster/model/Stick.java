@@ -1,5 +1,6 @@
 package fr.mds.megabrickbuster.model;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -17,14 +18,14 @@ public class Stick extends Rectangle {
 	public Stick(float x, float y, float width, float height) {
 		super(x, y, width, height);
 		try {
-			img = new Image("res/Stick.png");
+			img = new Image("res/Paddle.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(img, x, y);
+		g.drawImage(img, this.minX, this.minY, this.maxX, this.maxY, 0f, 0f, 222f, 36f);
 	}
 	
 	public void update(Input input, int winX, int arg1) {

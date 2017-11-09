@@ -2,10 +2,10 @@ package fr.mds.megabrickbuster.game;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -18,11 +18,11 @@ import fr.mds.megabrickbuster.model.Stick;
 
 public class Game extends BasicGameState {
 	
-	private static int SPACE = 10;
-	private static int BRICK_SIZE_X = 30;
-	private static int BRICK_SIZE_Y = 10;
-	private static int STICK_SIZE_X = 100;
-	private static int STICK_SIZE_Y = 14;
+	private static int SPACE = 4;
+	private static int BRICK_SIZE_X = 44;
+	private static int BRICK_SIZE_Y = 16;
+	private static int STICK_SIZE_X = 111;
+	private static int STICK_SIZE_Y = 18;
 	private static int BALL_RADIUS = 7;
 	
 	private static int STATE = 1;
@@ -33,6 +33,7 @@ public class Game extends BasicGameState {
 	private ArrayList<Ball> balls = new ArrayList<>();
 	private int windowSizeX, windowSizeY;
 	private Input input;
+	private Image background;
 	
 	private float initialSpeedX = .1f;
 	private float initialSpeedY = -3f;
@@ -53,8 +54,9 @@ public class Game extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		int x = SPACE;
 		int y = SPACE;
+		background = new Image("res/Background.jpg");
 		// Create several new bricks for the game
-		for(int i = 0; i < 196; i++) {
+		for(int i = 0; i < 200; i++) {
 			bricks.add(new Brick(x, y, BRICK_SIZE_X, BRICK_SIZE_Y));
 			x += BRICK_SIZE_X + SPACE;
 			if (x >= windowSizeX) {
@@ -65,9 +67,9 @@ public class Game extends BasicGameState {
 		brickMaxY = y;
 		// Creates the stick(s) and ball(s) for the game
 		if (nbGamer == 1) {
-			Stick stick = new Stick(windowSizeX / 2 - STICK_SIZE_X / 2, windowSizeY - STICK_SIZE_Y, STICK_SIZE_X, STICK_SIZE_Y);
+			Stick stick = new Stick(windowSizeX / 2 - STICK_SIZE_X / 2, windowSizeY - 2 * STICK_SIZE_Y, STICK_SIZE_X, STICK_SIZE_Y);
 			sticks.add(stick);
-			Ball ball = new Ball(windowSizeX / 2, windowSizeY - BALL_RADIUS * 4, BALL_RADIUS, initialSpeedX, initialSpeedY);
+			Ball ball = new Ball(windowSizeX / 2, windowSizeY - BALL_RADIUS * 6, BALL_RADIUS, initialSpeedX, initialSpeedY);
 			balls.add(ball);
 		}
 		else if (nbGamer == 2) {
@@ -84,8 +86,8 @@ public class Game extends BasicGameState {
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		arg2.drawString("Lives = " + lives + " | Score = " + score, 5, (BrickBusterLauncher.WINDOW_SIZE_Y - 30));
-		arg2.setColor(Color.red);
+		arg2.drawImage(background, 0, 0, BrickBusterLauncher.WINDOW_SIZE_X, BrickBusterLauncher.WINDOW_SIZE_Y, 0, 0, 1920, 1200);
+		arg2.drawString("Lives = " + lives + " | Score = " + score, 5, (BrickBusterLauncher.WINDOW_SIZE_Y - 60));
 		// Each object has its own rendering method
 		for (Brick brick : bricks) {
 			brick.render(arg2);

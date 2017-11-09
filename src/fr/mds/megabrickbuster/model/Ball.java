@@ -26,7 +26,7 @@ public class Ball extends Circle {
 		this.speedX = speedX;
 		this.speedY = speedY;
 		try {
-			this.img = new Image("res/Ball.jpg");
+			this.img = new Image("res/Ball.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -49,9 +49,7 @@ public class Ball extends Circle {
 	}
 	
 	public void render(Graphics g) {
-		g.draw(this);
-		g.setColor(Color.red);
-		//g.drawImage(img, x, y);
+		g.drawImage(img, this.minX, this.minY, this.maxX, this.maxY, 0f, 0f, 27f, 27f);
 	}
 	
 	public void move() {
