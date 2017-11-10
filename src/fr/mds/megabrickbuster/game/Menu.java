@@ -57,7 +57,7 @@ public class Menu extends BasicGameState {
 				arg1.enterState(BrickBusterLauncher.multiMenu);
 			}
 			else if (isScore) {
-				
+				arg1.enterState(BrickBusterLauncher.score);
 			}
 			else if (isOption) {
 				

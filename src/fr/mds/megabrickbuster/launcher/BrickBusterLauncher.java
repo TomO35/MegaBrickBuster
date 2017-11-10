@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.mds.megabrickbuster.game.Game;
 import fr.mds.megabrickbuster.game.Menu;
 import fr.mds.megabrickbuster.game.MultiplayerMenu;
+import fr.mds.megabrickbuster.game.Scores;
 
 public class BrickBusterLauncher extends StateBasedGame {
 
@@ -49,6 +50,7 @@ public class BrickBusterLauncher extends StateBasedGame {
 		this.addState(new Menu(menu));
 		this.addState(new Game(solo, WINDOW_SIZE_X, WINDOW_SIZE_Y, 1));
 		this.addState(new Game(multi, WINDOW_SIZE_X, WINDOW_SIZE_Y, 2));
+		this.addState(new Scores(score));
 		this.addState(new MultiplayerMenu(multiMenu));
 	}
 
