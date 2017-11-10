@@ -1,14 +1,15 @@
 package fr.mds.megabrickbuster.game;
 
+import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -42,8 +43,8 @@ public class Scores extends BasicGameState {
 		String title = new String("Highscores");
 		arg2.drawString(title, BrickBusterLauncher.WINDOW_SIZE_X / 2 - title.length() * 8, 50);
 		int i = 100;
-		for(String[] score : scores) {
-			String s = new String(score[0] + " : " + score[1] + " - " + score[2]);
+		for(int x = 1; x < scores.size(); x++) {
+			String s = new String(scores.get(x)[0] + " : " + scores.get(x)[1] + " - " + scores.get(x)[2]);
 			arg2.drawString(s, BrickBusterLauncher.WINDOW_SIZE_X / 2 - s.length() * 8, i);
 			System.out.println(s);
 			i += 20;

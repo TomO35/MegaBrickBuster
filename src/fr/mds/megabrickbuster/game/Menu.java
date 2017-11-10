@@ -22,16 +22,16 @@ public class Menu extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		solo = new MenuButton(220, 120, 100, 25, "solo");
-		multi = new MenuButton(220, 150, 100, 25, "multi");
-		score = new MenuButton(220, 180, 100, 25, "score");
-		option = new MenuButton(220, 210, 100, 25, "option");
-		exit = new MenuButton(220, 240, 100, 25, "exit");
+		solo = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 150, 200, 40, "Jouer");
+		multi = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 195, 200, 40, "Multijoueur");
+		score = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 240, 200, 40, "Highscores");
+		option = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 285, 200, 40, "Options");
+		exit = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 330, 200, 40, "Quitter");
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		arg2.drawString(BrickBusterLauncher.name, 210, 30);
+		arg2.drawString(BrickBusterLauncher.name, BrickBusterLauncher.WINDOW_SIZE_X / 2 - 80, 30);
 		solo.render(arg2);
 		multi.render(arg2);
 		score.render(arg2);
