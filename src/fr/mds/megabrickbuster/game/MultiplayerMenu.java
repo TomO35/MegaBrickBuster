@@ -9,10 +9,12 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.gui.AbstractComponent;
+import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.TextField;
-
 import fr.mds.megabrickbuster.launcher.BrickBusterLauncher;
 import fr.mds.megabrickbuster.model.MenuButton;
+import fr.mds.megabrickbuster.multiplayer.Server;
 
 public class MultiplayerMenu extends BasicGameState {
 	
@@ -29,7 +31,10 @@ public class MultiplayerMenu extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		clientOk = new MenuButton(230, 220, 100, 25, "Search");
 		serverOk = new MenuButton(230, 420, 100, 25, "Show my Ip");
-		clientTextField = new TextField(arg0,arg0.getDefaultFont(), 140, 150, 270 , 25);
+		clientTextField = new TextField(arg0,arg0.getDefaultFont(), 140, 150, 270 , 25, new ComponentListener(){
+            public void componentActivated(AbstractComponent arg0) {
+                 
+            }});
 		serverTextField = new TextField(arg0, arg0.getDefaultFont(), 180, 350, 200 , 25);
 		clientTextField.setText("Here");
 		clientTextField.setBorderColor(Color.red);
@@ -65,12 +70,16 @@ public class MultiplayerMenu extends BasicGameState {
 				//a faire
 			}
 			else if (isServerSearch) {
-				// A faire
+				Server server = new Server();
+				serverTextField.setText(server.getIpv4());
 			}
 			else if (isClientText) {
-				// A faire
+				clientTextField.setText("ok");
+				clientTextField.setCursorVisible(true);
+				clientTextField.setFocus(true);
 			}
-		}		
+		}
+		
 	}
 
 	@Override
