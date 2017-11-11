@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.mds.megabrickbuster.game.EndGame;
 import fr.mds.megabrickbuster.game.Game;
 import fr.mds.megabrickbuster.game.Menu;
+import fr.mds.megabrickbuster.game.MultiGame;
 import fr.mds.megabrickbuster.game.MultiplayerMenu;
 import fr.mds.megabrickbuster.game.Scores;
 
@@ -51,7 +52,7 @@ public class BrickBusterLauncher extends StateBasedGame {
 		super(name);
 		this.addState(new Menu(menu, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new Game(solo, WINDOW_SIZE_X, WINDOW_SIZE_Y));
-		//this.addState(new Game(multi, WINDOW_SIZE_X, WINDOW_SIZE_Y, 2));
+		this.addState(new MultiGame(multi, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new Scores(score));
 		this.addState(new MultiplayerMenu(multiMenu));
 		this.addState(new EndGame(endgame));
@@ -59,12 +60,6 @@ public class BrickBusterLauncher extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		this.getState(menu).init(arg0, this);
-		this.getState(solo).init(arg0, this);
-		//this.getState(multi).init(arg0, this);
-		this.getState(score).init(arg0, this);
-		this.getState(multiMenu).init(arg0, this);
-		this.getState(endgame).init(arg0, this);
 		this.enterState(menu);
 	}
 

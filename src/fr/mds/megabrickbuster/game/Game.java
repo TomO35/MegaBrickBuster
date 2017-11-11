@@ -24,8 +24,8 @@ public class Game extends BasicGameState {
 	private static int STICK_SIZE_Y = 18;
 	private static int BALL_RADIUS = 7;
 	
-	private int state = 1;
-	private static int SCORE = 0;
+	private static int STATE = 1;
+	public static int SCORE = 0;
 	
 	private ArrayList<Brick> bricks = new ArrayList<>();
 	private Stick stick;
@@ -42,7 +42,6 @@ public class Game extends BasicGameState {
 	private int lives = 3;
 	
 	public Game(int state, int windowSizeX, int windowSizeY) {
-		this.state = state;
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
 	}
@@ -87,11 +86,13 @@ public class Game extends BasicGameState {
 		if (input.isKeyDown(Input.KEY_SPACE)) {
 			if (!ball.isMoving()) {
 				ball.setMoving(true);
+			} else {
+				ball.setMoving(false);
 			}
 		}
 		
 		// Get an input to pause game
-		if (input.isKeyDown(Input.KEY_P)) {
+		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			arg1.enterState(BrickBusterLauncher.menu);
 		}
 		
@@ -162,8 +163,6 @@ public class Game extends BasicGameState {
 //				ball.setSpeedX(ball.getSpeedX() - (stick.getCenterX() - ball.getCenterX()));
 //				ball.setSpeedY(ball.getSpeedY());
 //				ball.setSpeedX(ball.getSpeedX() * (stick.getCenterX() - ball.getCenterX()) / (stick.getWidth() / 2));
-//			} else {
-//				ball.bounce("angle");
 //			}
 			ball.bounce("y");
 		}
@@ -185,7 +184,7 @@ public class Game extends BasicGameState {
 
 	@Override
 	public int getID() {
-		return state;
+		return this.STATE;
 	}
 	
 }
