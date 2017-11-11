@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.mds.megabrickbuster.game.EndGame;
 import fr.mds.megabrickbuster.game.Game;
 import fr.mds.megabrickbuster.game.Menu;
 import fr.mds.megabrickbuster.game.MultiplayerMenu;
@@ -25,6 +26,7 @@ public class BrickBusterLauncher extends StateBasedGame {
 	public static final int score = 3;
 	public static final int option = 4;
 	public static final int multiMenu = 5;
+	public static final int endgame = 6;
 
 	public static void main(String[] args) {
 
@@ -47,19 +49,22 @@ public class BrickBusterLauncher extends StateBasedGame {
 
 	public BrickBusterLauncher(String name) {
 		super(name);
-		this.addState(new Menu(menu));
-		this.addState(new Game(solo, WINDOW_SIZE_X, WINDOW_SIZE_Y, 1));
-		this.addState(new Game(multi, WINDOW_SIZE_X, WINDOW_SIZE_Y, 2));
+		this.addState(new Menu(menu, WINDOW_SIZE_X, WINDOW_SIZE_Y));
+		this.addState(new Game(solo, WINDOW_SIZE_X, WINDOW_SIZE_Y));
+		//this.addState(new Game(multi, WINDOW_SIZE_X, WINDOW_SIZE_Y, 2));
 		this.addState(new Scores(score));
 		this.addState(new MultiplayerMenu(multiMenu));
+		this.addState(new EndGame(endgame));
 	}
 
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
 		this.getState(menu).init(arg0, this);
 		this.getState(solo).init(arg0, this);
-		this.getState(multi).init(arg0, this);
+		//this.getState(multi).init(arg0, this);
+		this.getState(score).init(arg0, this);
 		this.getState(multiMenu).init(arg0, this);
+		this.getState(endgame).init(arg0, this);
 		this.enterState(menu);
 	}
 

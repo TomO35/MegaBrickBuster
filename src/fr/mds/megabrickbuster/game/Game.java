@@ -2,7 +2,6 @@ package fr.mds.megabrickbuster.game;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -25,12 +24,12 @@ public class Game extends BasicGameState {
 	private static int STICK_SIZE_Y = 18;
 	private static int BALL_RADIUS = 7;
 	
-	private static int STATE = 1;
+	private int state = 1;
+	private static int SCORE = 0;
 	
-	private int nbGamer;
 	private ArrayList<Brick> bricks = new ArrayList<>();
-	private ArrayList<Stick> sticks = new ArrayList<>();
-	private ArrayList<Ball> balls = new ArrayList<>();
+	private Stick stick;
+	private Ball ball;
 	private int windowSizeX, windowSizeY;
 	private Input input;
 	private Image background;
@@ -41,13 +40,11 @@ public class Game extends BasicGameState {
 	private int brickMaxY;
 	
 	private int lives = 3;
-	private int score = 0;
 	
-	public Game(int state, int windowSizeX, int windowSizeY, int nbGamer) {
-		this.STATE = state;
+	public Game(int state, int windowSizeX, int windowSizeY) {
+		this.state = state;
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
-		this.nbGamer = nbGamer;
 	}
 
 	@Override
@@ -64,40 +61,22 @@ public class Game extends BasicGameState {
 				y += BRICK_SIZE_Y + SPACE; 
 			}
 		}
-		brickMaxY = y;
-		// Creates the stick(s) and ball(s) for the game
-		if (nbGamer == 1) {
-			Stick stick = new Stick(windowSizeX / 2 - STICK_SIZE_X / 2, windowSizeY - 2 * STICK_SIZE_Y, STICK_SIZE_X, STICK_SIZE_Y);
-			sticks.add(stick);
-			Ball ball = new Ball(windowSizeX / 2, windowSizeY - BALL_RADIUS * 6, BALL_RADIUS, initialSpeedX, initialSpeedY);
-			balls.add(ball);
-		}
-		else if (nbGamer == 2) {
-			Stick stickP1 = new Stick(windowSizeX / 3 - STICK_SIZE_X / 2, windowSizeY - STICK_SIZE_Y * 2, STICK_SIZE_X, STICK_SIZE_Y);
-			Stick stickP2 = new Stick(windowSizeX * 2 / 3 - STICK_SIZE_X / 2, windowSizeY - STICK_SIZE_Y * 2, STICK_SIZE_X, STICK_SIZE_Y);
-			sticks.add(stickP1);
-			sticks.add(stickP2);
-			Ball ball1 = new Ball(windowSizeX / 3, windowSizeY - STICK_SIZE_Y * 3, BALL_RADIUS, initialSpeedX, initialSpeedY);
-			Ball ball2 = new Ball(windowSizeX * 2 / 3, windowSizeY - STICK_SIZE_Y * 3, BALL_RADIUS, initialSpeedX, initialSpeedY);
-			balls.add(ball1);
-			balls.add(ball2);
-		}
+		brickMaxY = y + SPACE;
+		// Creates the stick and ball for the game
+		stick = new Stick(windowSizeX / 2 - STICK_SIZE_X / 2, windowSizeY - 2 * STICK_SIZE_Y, STICK_SIZE_X, STICK_SIZE_Y);
+		ball = new Ball(windowSizeX / 2, windowSizeY - BALL_RADIUS * 7, BALL_RADIUS, initialSpeedX, initialSpeedY);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		arg2.drawImage(background, 0, 0, BrickBusterLauncher.WINDOW_SIZE_X, BrickBusterLauncher.WINDOW_SIZE_Y, 0, 0, 1920, 1200);
-		arg2.drawString("Lives = " + lives + " | Score = " + score, 5, (BrickBusterLauncher.WINDOW_SIZE_Y - 60));
+		arg2.drawImage(background, 0, 0, windowSizeX, windowSizeY, 0, 0, 1920, 1200);
+		arg2.drawString("Lives = " + lives + " | Score = " + SCORE, 5, (windowSizeY - 60));
 		// Each object has its own rendering method
 		for (Brick brick : bricks) {
 			brick.render(arg2);
 		}
-		for (Ball ball : balls) {
-			ball.render(arg2);
-		}
-		for (Stick stick : sticks) {
-			stick.render(arg2);
-		}
+		ball.render(arg2);
+		stick.render(arg2);
 	}
 
 	@Override
@@ -106,10 +85,8 @@ public class Game extends BasicGameState {
 		
 		// Get an input for start game
 		if (input.isKeyDown(Input.KEY_SPACE)) {
-			for (Ball ball : balls) {
-				if (!ball.isMoving()) {
-					ball.setMoving(true);
-				}
+			if (!ball.isMoving()) {
+				ball.setMoving(true);
 			}
 		}
 		
@@ -119,49 +96,38 @@ public class Game extends BasicGameState {
 		}
 		
 		// Get input about moving the stick
-		for (Stick stick : sticks) {
-			stick.update(input, windowSizeX, arg2);
-		}
+		stick.update(input, windowSizeX, arg2);
 		
-		Ball deadBall = null;
-		for (Ball ball : balls) {
-			// Handle all the ball's movements
-			if (ball.isMoving()) {	
-				
-				deadBall = ballToBorder(ball);
-				
-				for(Stick stick : sticks) {
-					ballToStick(ball, stick);
-				}
-				
-				// Check if there are still bricks
-				if (ball.getMinY() <= brickMaxY) {
-					if (bricks.size() > 0) {
-						// This variable will become the colliding brick to be deleted after the bounce of the ball
-						Brick b = ballToBrick(ball);
-						// If a brick did collide with the ball, it is removed
-						if (b != null) {
-							bricks.remove(b);
-						}
+		// Handle all the ball's movements
+		if (ball.isMoving()) {	
+			
+			if (ballToBorder(ball) != null) {
+				ball = new Ball(windowSizeX / 2, windowSizeY - BALL_RADIUS * 7, BALL_RADIUS, initialSpeedX, initialSpeedY);
+				if(lives > 0) {
+					lives -= 1;
+					if(lives <= 0) {
+						arg1.enterState(BrickBusterLauncher.endgame);
 					}
-					else {
-						// If there are no brick anymore, game is won
-						//TODO WIN - Screen
-					}
-				}
-				ball.move();
-			}			
-		}
-		if (deadBall != null) {
-			balls.remove(deadBall);
-			balls.add(new Ball(windowSizeX / 2, windowSizeY - STICK_SIZE_Y * 3, BALL_RADIUS, initialSpeedX, initialSpeedY));
-			if(lives > 0) {
-				lives -= 1;
-				if(lives <= 0) {
-					//TODO GAME OVER - display screen
 				}
 			}
-		}
+			ballToStick(ball, stick);
+			
+			// Check if there are still bricks
+			if (ball.getMinY() <= brickMaxY) {
+				if (bricks.size() > 0) {
+					// This variable will become the colliding brick to be deleted after the bounce of the ball
+					Brick b = ballToBrick(ball);
+					// If a brick did collide with the ball, it is removed
+					if (b != null) {
+						bricks.remove(b);
+					}
+				}
+				else {
+					arg1.enterState(BrickBusterLauncher.endgame);
+				}
+			}
+			ball.move();
+		}			
 	}
 
 	// Handle collisions with bricks 
@@ -178,10 +144,10 @@ public class Game extends BasicGameState {
 				else {
 					ball.bounce("angle");
 				}
-				if(score == 0) {
-					score = 1;
+				if(SCORE == 0) {
+					SCORE = 1;
 				} else {
-					score *= 2;
+					SCORE *= 2;
 				}
 				return brick;
 			}
@@ -219,7 +185,7 @@ public class Game extends BasicGameState {
 
 	@Override
 	public int getID() {
-		return STATE;
+		return state;
 	}
 	
 }

@@ -28,15 +28,15 @@ public class Stick extends Rectangle {
 		g.drawImage(img, this.minX, this.minY, this.maxX, this.maxY, 0f, 0f, 222f, 36f);
 	}
 	
-	public void update(Input input, int winX, int arg1) {
+	public void update(Input input, int winX, int i) {
 		if (input.isKeyDown(Input.KEY_RIGHT)) {
 			if (getX() + getWidth() < winX) {
-				setX(getX() + speed * arg1/1000);
+				setX(getX() + speed * i/1000);
 			}
 		}
 		if (input.isKeyDown(Input.KEY_LEFT)) {
 			if (getX() > 0) {
-				setX(getX() - speed * arg1/1000);
+				setX(getX() - speed * i/1000);
 			}
 		}
 	}

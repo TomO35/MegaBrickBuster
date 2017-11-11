@@ -59,10 +59,10 @@ public class Ball extends Circle {
 	
 	public void bounce(String s) {
 		if (s == "x") {
-			speedX = -speedX;
+			speedX = -(speedX + 0.01f);
 		}
 		else if (s == "y") {
-			speedY = -speedY;
+			speedY = -(speedY + 0.01f);
 		}
 		else if (s == "angle") {
 			float f = speedX;

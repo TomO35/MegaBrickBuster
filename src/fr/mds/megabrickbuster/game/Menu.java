@@ -16,26 +16,29 @@ public class Menu extends BasicGameState {
 	private static int STATE = 0;
 
 	MenuButton solo, multi, score, option, exit;
+	int windowSizeX, windowSizeY;
 	
-	public Menu(int state) {
+	public Menu(int state, int windowSizeX, int windowSizeY) {
+		this.windowSizeX = windowSizeX;
+		this.windowSizeY = windowSizeY;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		solo = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 150, 200, 40, "Jouer");
-		multi = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 195, 200, 40, "Multijoueur");
-		score = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 240, 200, 40, "Highscores");
-		option = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 285, 200, 40, "Options");
-		exit = new MenuButton(BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, 330, 200, 40, "Quitter");
+		solo = new MenuButton(windowSizeX / 2 - 100, 150, 200, 40, "Jouer");
+		multi = new MenuButton(windowSizeX / 2 - 100, 195, 200, 40, "Multijoueur");
+		score = new MenuButton(windowSizeX / 2 - 100, 240, 200, 40, "Highscores");
+		option = new MenuButton(windowSizeX / 2 - 100, 285, 200, 40, "Options");
+		exit = new MenuButton(windowSizeX / 2 - 100, 330, 200, 40, "Quitter");
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		arg2.drawString(BrickBusterLauncher.name, BrickBusterLauncher.WINDOW_SIZE_X / 2 - 80, 30);
+		arg2.drawString(BrickBusterLauncher.name, windowSizeX / 2 - 80, 30);
 		solo.render(arg2);
 		multi.render(arg2);
 		score.render(arg2);
-		option.render(arg2);
+		//option.render(arg2);
 		exit.render(arg2);
 	}
 
@@ -44,11 +47,11 @@ public class Menu extends BasicGameState {
 		Input input = arg0.getInput();
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
-		boolean isSolo = (posX > 220  && posX < 320) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 120 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 145);
-		boolean isMulti = (posX > 220  && posX < 320) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 150 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 175);
-		boolean isScore = (posX > 220  && posX < 320) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 180 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 205);
-		boolean isOption = (posX > 220  && posX < 320) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 210 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 235);
-		boolean isExit = (posX > 220  && posX < 320) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 240 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 265);
+		boolean isSolo = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 150 && posY > windowSizeY - 190);
+		boolean isMulti = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 195 && posY > windowSizeY - 235);
+		boolean isScore = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 240 && posY > windowSizeY - 280);
+		boolean isOption = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 285 && posY > windowSizeY - 325);
+		boolean isExit = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 330 && posY > windowSizeY - 370);
 		if(input.isMouseButtonDown(0)) {
 			if (isSolo) {
 				arg1.enterState(BrickBusterLauncher.solo);
