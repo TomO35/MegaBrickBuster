@@ -12,6 +12,6 @@ public class MultiGame extends Game {
 	
 	@Override
 	public int getID() {
-		return this.STATE;
+		return MultiGame.STATE;
 	}
 }

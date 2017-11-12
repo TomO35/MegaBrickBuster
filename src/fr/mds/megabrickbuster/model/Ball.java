@@ -1,6 +1,5 @@
 package fr.mds.megabrickbuster.model;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -86,6 +85,17 @@ public class Ball extends Circle {
 	public void setSpeedY(float speedY) {
 		this.speedY = speedY;
 	}
-	
+
+	public float getAngle() {
+		return (float) Math.toDegrees(Math.atan2(speedY, speedX));
+	}
+
+	public void setSpeedToAngle(int angle) {
+		System.out.println(speedX + ", " + speedY);
+		float oldAngle = getAngle();
+		speedX = (float) (Math.sqrt(Math.pow(speedX,2) + Math.pow (speedY,2)) * Math.cos(Math.toRadians(oldAngle + angle)));
+		speedY = -(float) (Math.sqrt(Math.pow(speedX,2) + Math.pow (speedY,2)) * Math.sin(Math.toRadians(oldAngle + angle)));
+		System.out.println(speedX + ", " + speedY);
+	}
 	
 }

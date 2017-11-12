@@ -35,10 +35,9 @@ public class Game extends BasicGameState {
 	private Image background;
 	
 	private float initialSpeedX = .1f;
-	private float initialSpeedY = -3f;
+	private float initialSpeedY = -3.5f;
 	
 	private int brickMaxY;
-	
 	private int lives = 3;
 	
 	public Game(int state, int windowSizeX, int windowSizeY) {
@@ -136,20 +135,16 @@ public class Game extends BasicGameState {
 		for (Brick brick : bricks) {
 			if (ball.intersects(brick)) {
 				// Handle the reaction of the ball in collision
-				if(ball.getCenterY() >= brick.getMinY() - 3 && ball.getCenterY() <= brick.getMaxY() + 3) {
+				if(ball.getCenterY() >= brick.getMinY() - 4 && ball.getCenterY() <= brick.getMaxY() + 4) {
 					ball.bounce("x");
 				}
-				else if(ball.getCenterX() >= brick.getMinX() - 3 && ball.getCenterX() <= brick.getMaxX() + 3) {
+				else if(ball.getCenterX() >= brick.getMinX() - 4 && ball.getCenterX() <= brick.getMaxX() + 4) {
 					ball.bounce("y");
 				}
 				else {
 					ball.bounce("angle");
 				}
-				if(SCORE == 0) {
-					SCORE = 1;
-				} else {
-					SCORE *= 2;
-				}
+				SCORE += 1;
 				return brick;
 			}
 		}
@@ -159,12 +154,17 @@ public class Game extends BasicGameState {
 	// Handle collision with the stick
 	public void ballToStick(Ball ball, Stick stick) {
 		if (ball.intersects(stick)) {
-//			if (ball.getCenterX() >= stick.getX() && ball.getCenterX() <= stick.getMaxX()) {
-//				ball.setSpeedX(ball.getSpeedX() - (stick.getCenterX() - ball.getCenterX()));
-//				ball.setSpeedY(ball.getSpeedY());
-//				ball.setSpeedX(ball.getSpeedX() * (stick.getCenterX() - ball.getCenterX()) / (stick.getWidth() / 2));
-//			}
-			ball.bounce("y");
+			System.out.println("Before : " + ball.getAngle() + "°");
+			if ((ball.getCenterX() >= stick.getCenterX() + 2 && ball.getCenterX() <= stick.getMaxX()) && ball.getSpeedX() > 0 && ball.getAngle() > 20) {
+				ball.setSpeedToAngle(-15);
+				System.out.println("After left : " + ball.getAngle() + "°");
+			} else if ((ball.getCenterX() <= stick.getCenterX() - 2 && ball.getCenterX() >= stick.getMinX()) && ball.getSpeedX() > 0 && ball.getAngle() < 160){
+				ball.setSpeedToAngle(15);
+				System.out.println("after right : " + ball.getAngle() + "°");
+			} else {
+				ball.bounce("y");
+				System.out.println("After else : " + ball.getAngle() + "°");
+			}
 		}
 	}
 	
@@ -184,7 +184,7 @@ public class Game extends BasicGameState {
 
 	@Override
 	public int getID() {
-		return this.STATE;
+		return Game.STATE;
 	}
 	
 }
