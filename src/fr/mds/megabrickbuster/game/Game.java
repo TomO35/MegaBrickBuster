@@ -25,7 +25,6 @@ public class Game extends BasicGameState {
 	private static int BALL_RADIUS = 7;
 	
 	private static int STATE = 1;
-	public static int SCORE = 0;
 	
 	private ArrayList<Brick> bricks = new ArrayList<>();
 	private Stick stick;
@@ -38,7 +37,8 @@ public class Game extends BasicGameState {
 	private float initialSpeedY = -3.5f;
 	
 	private int brickMaxY;
-	private int lives = 3;
+	private int lives;
+	public int score;
 	
 	public Game(int state, int windowSizeX, int windowSizeY) {
 		this.windowSizeX = windowSizeX;
@@ -47,6 +47,8 @@ public class Game extends BasicGameState {
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
+		lives = 3;
+		score = 0;
 		int x = SPACE;
 		int y = SPACE;
 		background = new Image("res/Background.jpg");
@@ -68,7 +70,7 @@ public class Game extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		arg2.drawImage(background, 0, 0, windowSizeX, windowSizeY, 0, 0, 1920, 1200);
-		arg2.drawString("Lives = " + lives + " | Score = " + SCORE, 5, (windowSizeY - 60));
+		arg2.drawString("Lives = " + lives + " | Score = " + score, 5, (windowSizeY - 60));
 		// Each object has its own rendering method
 		for (Brick brick : bricks) {
 			brick.render(arg2);
@@ -120,9 +122,11 @@ public class Game extends BasicGameState {
 					if (b != null) {
 						bricks.remove(b);
 					}
-				}
-				else {
+				} else {
+					BrickBusterLauncher.score = score;
+					arg1.getState(EndGame.STATE).init(arg0, arg1);
 					arg1.enterState(BrickBusterLauncher.endgame);
+					this.init(arg0, arg1);
 				}
 			}
 			ball.move();
@@ -143,7 +147,7 @@ public class Game extends BasicGameState {
 				else {
 					ball.bounce("angle");
 				}
-				SCORE += 1;
+				score += 1;
 				return brick;
 			}
 		}
