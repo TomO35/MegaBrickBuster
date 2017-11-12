@@ -1,6 +1,5 @@
 package fr.mds.megabrickbuster.game;
 
-
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -19,38 +18,44 @@ public class MultiplayerMenu extends BasicGameState {
 	
 	private static int STATE = 5;
 
-	MenuButton clientOk, serverOk;
+	private int windowSizeX, windowSizeY;
+	MenuButton clientButton, serverButton;
 	TextField clientTextField, serverTextField;
 	String ipv4;
 	
-	
-	public MultiplayerMenu(int state) {
+	public MultiplayerMenu(int state, int windowSizeX, int windowSizeY) {
+		this.windowSizeX = windowSizeX;
+		this.windowSizeY = windowSizeY;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		clientOk = new MenuButton(230, 220, 100, 25, "Search");
-		serverOk = new MenuButton(230, 420, 100, 25, "Show my Ip");
-		clientTextField = new TextField(arg0,arg0.getDefaultFont(), 140, 150, 270 , 25);
-		serverTextField = new TextField(arg0, arg0.getDefaultFont(), 180, 350, 200 , 25);
+		clientButton = new MenuButton(windowSizeX / 2 - 80, 220, 100, 25, "Search");
+		serverButton = new MenuButton(windowSizeX / 2 - 80, 420, 100, 25, "Show my Ip");
+		clientTextField = new TextField(arg0,arg0.getDefaultFont(), windowSizeX / 2 - 150, 150, 270 , 25);
+		serverTextField = new TextField(arg0, arg0.getDefaultFont(), windowSizeX / 2 - 120, 350, 200 , 25);
 		clientTextField.setText("Here");
 		clientTextField.setBorderColor(Color.red);
 		serverTextField.setText("IPV4");
 		serverTextField.setBorderColor(Color.red);
-
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		arg2.drawString(BrickBusterLauncher.name, 210, 30);
-		clientOk.render(arg2);
-		serverOk.render(arg2);
-		arg2.drawRect(130, 100, 300, 150);
-		arg2.drawRect(130, 300, 300, 150);
-		arg2.drawString("Enter Ip adress of the server", 140, 110);
-		arg2.drawString("Show me my Ip adress", 180, 310);
+		arg2.drawString(BrickBusterLauncher.name,windowSizeX / 2 - 80, 30);
+		clientButton.render(arg2);
+		serverButton.render(arg2);
+		arg2.drawRect(windowSizeX / 2 - 170, 100, 300, 150);
+		arg2.drawRect(windowSizeX / 2 - 170, 300, 300, 150);
+		arg2.drawString("Enter Ip adress of the server", windowSizeX / 2 - 150, 110);
+		arg2.drawString("Show me my Ip adress", windowSizeX / 2 - 120, 310);
+		arg2.drawString("Once a button pressed wait a moment, and make sure that 2nd player pressed the other button. ", windowSizeX / 2 - 400, 540);
 		clientTextField.render(arg0, arg2);
 		serverTextField.render(arg0, arg2);
+
+			
+
+
 	}
 
 	@Override
@@ -58,28 +63,32 @@ public class MultiplayerMenu extends BasicGameState {
 		Input input = arg0.getInput();
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
-		boolean isClientSearch = (posX > 230  && posX < 330) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 220 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 245);
-		boolean isServerSearch = (posX > 230  && posX < 330) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 420 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 445);
-		boolean isClientText = (posX > 140  && posX < 410) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 150 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 175);
+		boolean isClientButton = (posX > windowSizeX / 2 - 80  && posX < windowSizeX / 2 + 20) && (posY < windowSizeY - 220 && posY > windowSizeY - 245);
+		boolean isServerButton = (posX > windowSizeX / 2 - 80  && posX < windowSizeX / 2 + 20) && (posY < windowSizeY - 420 && posY > windowSizeY - 445);
+		boolean isClientText = (posX > windowSizeX / 2 - 150  && posX < windowSizeX / 2 + 120) && (posY < windowSizeY - 150 && posY > windowSizeY - 175);
 		if(input.isMouseButtonDown(0)) {
-			if (isClientSearch) {
+			if (isClientButton) {
+				System.out.println("client");
 				Client client = new Client();
 				if (client.getServerConnection(clientTextField.getText())) {
-					//if client connected
+					//arg1.enterState(BrickBusterLauncher.multiclient);
+				} else {
+					
 				}
+					
 			}
-			else if (isServerSearch) {
+			else if (isServerButton) {	
+				System.out.println("server");
 				Server server = new Server();
 				ipv4 = server.getIpv4();
 				serverTextField.setText(ipv4);
 				if (server.getClientConnection(ipv4)) {
-					//if server connected
+					arg1.enterState(BrickBusterLauncher.multiserver);
+				} else {
+					
 				}
 			}
 			else if (isClientText) {
-				while (input.isKeyDown(Input.KEY_SPACE)){
-					
-				}
 				if(!clientTextField.hasFocus()){
 					clientTextField.setFocus(true);
 					clientTextField.setText("");
