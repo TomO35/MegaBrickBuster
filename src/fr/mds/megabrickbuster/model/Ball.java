@@ -91,11 +91,9 @@ public class Ball extends Circle {
 	}
 
 	public void setSpeedToAngle(int angle) {
-		System.out.println(speedX + ", " + speedY);
 		float oldAngle = getAngle();
 		speedX = (float) (Math.sqrt(Math.pow(speedX,2) + Math.pow (speedY,2)) * Math.cos(Math.toRadians(oldAngle + angle)));
 		speedY = -(float) (Math.sqrt(Math.pow(speedX,2) + Math.pow (speedY,2)) * Math.sin(Math.toRadians(oldAngle + angle)));
-		System.out.println(speedX + ", " + speedY);
 	}
 	
 }

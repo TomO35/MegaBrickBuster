@@ -30,12 +30,12 @@ public class Stick extends Rectangle {
 	public void update(Input input, int winX, int i) {
 		if (input.isKeyDown(Input.KEY_RIGHT)) {
 			if (getX() + getWidth() < winX) {
-				setX(getX() + speed * i/1000);
+				setX(getX() + speed * i/800);
 			}
 		}
 		if (input.isKeyDown(Input.KEY_LEFT)) {
 			if (getX() > 0) {
-				setX(getX() - speed * i/1000);
+				setX(getX() - speed * i/800);
 			}
 		}
 	}

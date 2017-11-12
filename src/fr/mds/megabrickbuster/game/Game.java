@@ -90,7 +90,6 @@ public class Game extends BasicGameState {
 			}
 		}
 		
-		// Get an input to pause game
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			arg1.enterState(BrickBusterLauncher.menu);
 		}
@@ -155,10 +154,10 @@ public class Game extends BasicGameState {
 	public void ballToStick(Ball ball, Stick stick) {
 		if (ball.intersects(stick)) {
 			System.out.println("Before : " + ball.getAngle() + "°");
-			if ((ball.getCenterX() >= stick.getCenterX() + 2 && ball.getCenterX() <= stick.getMaxX()) && ball.getSpeedX() > 0 && ball.getAngle() > 20) {
+			if ((ball.getCenterX() >= stick.getCenterX() + 2 && ball.getCenterX() <= stick.getMaxX()) && ball.getSpeedY() > 0 && ball.getAngle() > 20) {
 				ball.setSpeedToAngle(-15);
 				System.out.println("After left : " + ball.getAngle() + "°");
-			} else if ((ball.getCenterX() <= stick.getCenterX() - 2 && ball.getCenterX() >= stick.getMinX()) && ball.getSpeedX() > 0 && ball.getAngle() < 160){
+			} else if ((ball.getCenterX() <= stick.getCenterX() - 2 && ball.getCenterX() >= stick.getMinX()) && ball.getSpeedY() > 0 && ball.getAngle() < 160){
 				ball.setSpeedToAngle(15);
 				System.out.println("after right : " + ball.getAngle() + "°");
 			} else {
