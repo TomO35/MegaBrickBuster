@@ -19,7 +19,7 @@ public class Server {
 	public Server() {
 		
 	}
-	
+		//get the localhost adress for the server
 		public String getIpv4() {
 			try {
 				String Ipv4 = InetAddress.getLocalHost().getHostAddress();
@@ -29,7 +29,7 @@ public class Server {
 			}
 			return null;
 		}
-		
+		//set connection using socket with client at port 2005
 		public boolean getClientConnection(String ip) {
 			try {
 				serversocket = new ServerSocket(2005, 1, InetAddress.getByName(ip));

@@ -140,6 +140,7 @@ public class MultiGameClient extends Game {
 				}
 				else {
 					arg1.enterState(BrickBusterLauncher.endgame);
+					MultiplayerMenu.client.closeConnection();
 				}
 			}
 			ball1.move();

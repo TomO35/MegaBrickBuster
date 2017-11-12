@@ -16,7 +16,7 @@ public class Client {
 	public Client() {
 		
 	}
-	
+	//open a socket in order to set the connection 
 	public  boolean getServerConnection(String ip) {
 		try {
 			socket = new Socket(InetAddress.getByName(ip),2005);
@@ -28,7 +28,7 @@ public class Client {
 			return false;
 		}
 	}
-	
+	//send a float( this float is the x pos of the stick)
 	public boolean sendFloatData(float pos) {
 		try {
 			outClient.writeFloat(pos);
@@ -39,7 +39,7 @@ public class Client {
 			return false;
 		}
 	}
-	
+	//get a float
 	public float getFloatData() {
 		try {
 			valeur = inClient.readFloat();

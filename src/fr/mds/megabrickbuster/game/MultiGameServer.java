@@ -142,6 +142,7 @@ public class MultiGameServer extends Game {
 				}
 				else {
 					arg1.enterState(BrickBusterLauncher.endgame);
+					MultiplayerMenu.server.closeConnection();
 				}
 			}
 			ball1.move();
