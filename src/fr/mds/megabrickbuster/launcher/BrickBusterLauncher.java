@@ -11,7 +11,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.mds.megabrickbuster.game.EndGame;
 import fr.mds.megabrickbuster.game.Game;
 import fr.mds.megabrickbuster.game.Menu;
-import fr.mds.megabrickbuster.game.MultiGame;
+import fr.mds.megabrickbuster.game.MultiGameClient;
+import fr.mds.megabrickbuster.game.MultiGameServer;
 import fr.mds.megabrickbuster.game.MultiplayerMenu;
 import fr.mds.megabrickbuster.game.Scores;
 
@@ -23,7 +24,8 @@ public class BrickBusterLauncher extends StateBasedGame {
 	public static final String name = "Mega BrickBuster";
 	public static final int menu = 0;
 	public static final int solo = 1;
-	public static final int multi = 2;
+	public static final int multiserver = 2;
+	public static final int multiclient = 7;
 	public static final int score = 3;
 	public static final int option = 4;
 	public static final int multiMenu = 5;
@@ -52,9 +54,10 @@ public class BrickBusterLauncher extends StateBasedGame {
 		super(name);
 		this.addState(new Menu(menu, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new Game(solo, WINDOW_SIZE_X, WINDOW_SIZE_Y));
-		this.addState(new MultiGame(multi, WINDOW_SIZE_X, WINDOW_SIZE_Y));
+		this.addState(new MultiGameServer(multiserver, WINDOW_SIZE_X, WINDOW_SIZE_Y));
+		this.addState(new MultiGameClient(multiserver, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new Scores(score));
-		this.addState(new MultiplayerMenu(multiMenu));
+		this.addState(new MultiplayerMenu(multiMenu, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new EndGame(endgame));
 	}
 

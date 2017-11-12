@@ -12,7 +12,7 @@ import fr.mds.megabrickbuster.model.Ball;
 import fr.mds.megabrickbuster.model.Brick;
 import fr.mds.megabrickbuster.model.Stick;
 
-public class MultiGame extends Game {
+public class MultiGameServer extends Game {
 	
 	private static int SPACE = 4;
 	private static int BRICK_SIZE_X = 44;
@@ -39,7 +39,7 @@ public class MultiGame extends Game {
 
 	
 	
-	public MultiGame(int state, int windowSizeX, int windowSizeY) {
+	public MultiGameServer(int state, int windowSizeX, int windowSizeY) {
 		super(state, windowSizeX, windowSizeY);
 	}
 	
@@ -67,6 +67,6 @@ public class MultiGame extends Game {
 	
 	@Override
 	public int getID() {
-		return MultiGame.STATE;
+		return MultiGameServer.STATE;
 	}
 }
