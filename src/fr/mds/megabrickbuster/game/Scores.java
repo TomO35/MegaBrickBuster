@@ -32,6 +32,8 @@ public class Scores extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		background = new Image("res/Background.jpg");
+		
+		// Get scores from CSV
 		try {
 			scores = CSVHelper.readScores();
 		} catch (IOException e) {
@@ -45,23 +47,7 @@ public class Scores extends BasicGameState {
 		String title = new String("Highscores");
 		arg2.drawString(title, BrickBusterLauncher.WINDOW_SIZE_X / 2 - title.length() * 8, 50);
 		
-		Collections.sort(scores, new Comparator<Object>() {
-			@Override
-			public int compare(Object o1, Object o2) {
-				String[] s1 = (String[]) o1;
-				String[] s2 = (String[]) o2;
-				if (Integer.valueOf(s1[1]) > Integer.valueOf(s2[1])){
-					return -1;
-				} else {
-					return 1;
-				}
-			}
-		});
-		
-		while (scores.size() > 10) {
-			scores.remove(scores.size() - 1);
-		}
-		
+		// Writes the scores down
 		int i = 100;
 		for(int x = 0; x < scores.size(); x++) {
 			String s = new String(scores.get(x)[0] + " : " + scores.get(x)[1]);
@@ -74,10 +60,12 @@ public class Scores extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
 		input = arg0.getInput();
 		
+		// To go Back to the Menu
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			arg1.enterState(BrickBusterLauncher.menu);
 		}
 		
+		// Check if scores have changed since init()
 		try {
 			scores = CSVHelper.readScores();
 		} catch (IOException e) {

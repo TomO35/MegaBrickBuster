@@ -30,8 +30,6 @@ public class BrickBusterLauncher extends StateBasedGame {
     public static final int option = 4;
     public static final int multiMenu = 5;
     public static final int endgame = 6;
-    
-    public static int score;
 
     public static void main(String[] args) {
         System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
@@ -51,6 +49,10 @@ public class BrickBusterLauncher extends StateBasedGame {
 
     public BrickBusterLauncher(String name) {
         super(name);
+    }
+
+    @Override
+    public void initStatesList(GameContainer arg0) throws SlickException {
         this.addState(new Menu(menu, WINDOW_SIZE_X, WINDOW_SIZE_Y));
         this.addState(new Game(solo, WINDOW_SIZE_X, WINDOW_SIZE_Y));
         this.addState(new MultiGameServer(multiserver, WINDOW_SIZE_X, WINDOW_SIZE_Y));
@@ -58,11 +60,11 @@ public class BrickBusterLauncher extends StateBasedGame {
         this.addState(new Scores(scores));
         this.addState(new MultiplayerMenu(multiMenu, WINDOW_SIZE_X, WINDOW_SIZE_Y));
         this.addState(new EndGame(endgame));
-    }
-
-    @Override
-    public void initStatesList(GameContainer arg0) throws SlickException {
         this.enterState(menu);
+    }
+    
+    public static void newGame(StateBasedGame sbg) throws SlickException {
+    	sbg.getState(menu).init(sbg.getContainer(), sbg);;
     }
 
 }

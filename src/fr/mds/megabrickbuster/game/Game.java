@@ -40,6 +40,8 @@ public class Game extends BasicGameState {
 	private int lives;
 	public int score;
 	
+	public static int ENDSCORE = 0;
+	
 	public Game(int state, int windowSizeX, int windowSizeY) {
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
@@ -92,6 +94,7 @@ public class Game extends BasicGameState {
 			}
 		}
 		
+		// Returns to menu when escape pressed
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			arg1.enterState(BrickBusterLauncher.menu);
 		}
@@ -102,6 +105,7 @@ public class Game extends BasicGameState {
 		// Handle all the ball's movements
 		if (ball.isMoving()) {	
 			
+			// Checks if ball touched borders
 			if (ballToBorder(ball) != null) {
 				ball = new Ball(windowSizeX / 2, windowSizeY - BALL_RADIUS * 7, BALL_RADIUS, initialSpeedX, initialSpeedY);
 				if(lives > 0) {
@@ -111,6 +115,8 @@ public class Game extends BasicGameState {
 					}
 				}
 			}
+			
+			// Check if ball touched stick
 			ballToStick(ball, stick);
 			
 			// Check if there are still bricks
@@ -123,10 +129,9 @@ public class Game extends BasicGameState {
 						bricks.remove(b);
 					}
 				} else {
-					BrickBusterLauncher.score = score;
-					arg1.getState(EndGame.STATE).init(arg0, arg1);
+					// When there's no Bricks anymore, player is sent to the endgame page
+					ENDSCORE = score;
 					arg1.enterState(BrickBusterLauncher.endgame);
-					this.init(arg0, arg1);
 				}
 			}
 			ball.move();
@@ -157,6 +162,7 @@ public class Game extends BasicGameState {
 	// Handle collision with the stick
 	public void ballToStick(Ball ball, Stick stick) {
 		if (ball.intersects(stick)) {
+			// Changes angle depending of the position on the stick
 			System.out.println("Before : " + ball.getAngle() + "°");
 			if ((ball.getCenterX() >= stick.getCenterX() + 2 && ball.getCenterX() <= stick.getMaxX()) && ball.getSpeedY() > 0 && ball.getAngle() > 20) {
 				ball.setSpeedToAngle(-15);

@@ -3,6 +3,7 @@
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -17,6 +18,7 @@ public class Menu extends BasicGameState {
 
 	MenuButton solo, multi, score, option, exit;
 	int windowSizeX, windowSizeY;
+	private Image background;
 	
 	public Menu(int state, int windowSizeX, int windowSizeY) {
 		this.windowSizeX = windowSizeX;
@@ -25,6 +27,7 @@ public class Menu extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
+		background = new Image("res/Background.jpg");
 		solo = new MenuButton(windowSizeX / 2 - 100, 150, 200, 40, "Jouer");
 		multi = new MenuButton(windowSizeX / 2 - 100, 195, 200, 40, "Multijoueur");
 		score = new MenuButton(windowSizeX / 2 - 100, 240, 200, 40, "Highscores");
@@ -34,6 +37,7 @@ public class Menu extends BasicGameState {
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
+		arg2.drawImage(background, 0, 0, windowSizeX, windowSizeY, 0, 0, 1920, 1200);
 		arg2.drawString(BrickBusterLauncher.name, windowSizeX / 2 - 80, 30);
 		solo.render(arg2);
 		multi.render(arg2);
@@ -47,11 +51,15 @@ public class Menu extends BasicGameState {
 		Input input = arg0.getInput();
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
+		
+		// These booleans check which button was hit if there is any
 		boolean isSolo = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 150 && posY > windowSizeY - 190);
 		boolean isMulti = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 195 && posY > windowSizeY - 235);
 		boolean isScore = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 240 && posY > windowSizeY - 280);
 		boolean isOption = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 285 && posY > windowSizeY - 325);
 		boolean isExit = (posX > windowSizeX / 2 - 100  && posX < windowSizeX / 2 + 100) && (posY < windowSizeY - 330 && posY > windowSizeY - 370);
+		
+		// From the dawn menuButtons, we can access the different states
 		if(input.isMouseButtonDown(0)) {
 			if (isSolo) {
 				arg1.enterState(BrickBusterLauncher.solo);

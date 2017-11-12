@@ -18,7 +18,6 @@ import fr.mds.megabrickbuster.tools.CSVHelper;
 public class EndGame extends BasicGameState{
 	
 	public static int STATE = 6;
-	public static int SCORE = 0;
 	
 	private TextField tfName;
 	private Image background;
@@ -36,30 +35,32 @@ public class EndGame extends BasicGameState{
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		arg2.drawImage(background, 0, 0, BrickBusterLauncher.WINDOW_SIZE_X, BrickBusterLauncher.WINDOW_SIZE_Y, 0, 0, 1920, 1200);
-		arg2.drawString("Score :" + SCORE, BrickBusterLauncher.WINDOW_SIZE_X / 2 - 40, BrickBusterLauncher.WINDOW_SIZE_Y / 2 - 200);
+		arg2.drawString("Score :" + Game.ENDSCORE, BrickBusterLauncher.WINDOW_SIZE_X / 2 - 40, BrickBusterLauncher.WINDOW_SIZE_Y / 2 - 200);
 		arg2.drawString("Ton Nom :", BrickBusterLauncher.WINDOW_SIZE_X / 2 - 40, BrickBusterLauncher.WINDOW_SIZE_Y / 2 - 60);
-		arg2.drawString("Enter pour valider", BrickBusterLauncher.WINDOW_SIZE_X / 2 - 45, BrickBusterLauncher.WINDOW_SIZE_Y / 2 + 30);
+		arg2.drawString("Enter pour valider", BrickBusterLauncher.WINDOW_SIZE_X / 2 - 90, BrickBusterLauncher.WINDOW_SIZE_Y / 2 + 30);
 		tfName.render(arg0, arg2);
 	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		SCORE = BrickBusterLauncher.score;
 		input = arg0.getInput();
 		tfName.setFocus(true);
+		System.out.println(Game.ENDSCORE);
 		
+		// When enter key is pressed then score and name are added to CSV and state switches to scores page
 		if (input.isKeyDown(Input.KEY_ENTER)) {
 			try {
-				if (tfName.getText().trim().equals("")) {
+				if (!tfName.getText().trim().equals("")) {
 					List<String[]> scores = CSVHelper.readScores();
-					scores.add(0, new String[] {tfName.getText().trim(), Integer.toString(SCORE)});
+					scores.add(0, new String[] {tfName.getText().trim(), Integer.toString(Game.ENDSCORE)});
 					CSVHelper.writeScores(scores);
+					arg1.getState(Scores.STATE).init(arg0, arg1);
+					BrickBusterLauncher.newGame(arg1);
+					arg1.enterState(BrickBusterLauncher.scores);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			arg1.getState(Scores.STATE).init(arg0, arg1);
-			arg1.enterState(BrickBusterLauncher.scores);
 		}
 		
 	}
