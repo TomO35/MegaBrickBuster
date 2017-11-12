@@ -55,7 +55,7 @@ public class BrickBusterLauncher extends StateBasedGame {
 		this.addState(new Menu(menu, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new Game(solo, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new MultiGameServer(multiserver, WINDOW_SIZE_X, WINDOW_SIZE_Y));
-		this.addState(new MultiGameClient(multiserver, WINDOW_SIZE_X, WINDOW_SIZE_Y));
+		this.addState(new MultiGameClient(multiclient, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new Scores(score));
 		this.addState(new MultiplayerMenu(multiMenu, WINDOW_SIZE_X, WINDOW_SIZE_Y));
 		this.addState(new EndGame(endgame));

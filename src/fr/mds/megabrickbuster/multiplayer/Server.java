@@ -43,9 +43,19 @@ public class Server {
 			}
 		}
 		
-		public boolean getData() {
+		public boolean getIntData() {
 			try {
 				message_distant = in.readInt();
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public boolean getFloatData() {
+			try {
+				message_distant = in.readFloat();
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -23,7 +23,6 @@ public class MultiplayerMenu extends BasicGameState {
 	TextField clientTextField, serverTextField;
 	String ipv4;
 	
-	
 	public MultiplayerMenu(int state, int windowSizeX, int windowSizeY) {
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
@@ -39,7 +38,6 @@ public class MultiplayerMenu extends BasicGameState {
 		clientTextField.setBorderColor(Color.red);
 		serverTextField.setText("IPV4");
 		serverTextField.setBorderColor(Color.red);
-
 	}
 
 	@Override
@@ -51,8 +49,13 @@ public class MultiplayerMenu extends BasicGameState {
 		arg2.drawRect(windowSizeX / 2 - 170, 300, 300, 150);
 		arg2.drawString("Enter Ip adress of the server", windowSizeX / 2 - 150, 110);
 		arg2.drawString("Show me my Ip adress", windowSizeX / 2 - 120, 310);
+		arg2.drawString("Once a button pressed wait a moment, and make sure that 2nd player pressed the other button. ", windowSizeX / 2 - 400, 540);
 		clientTextField.render(arg0, arg2);
 		serverTextField.render(arg0, arg2);
+
+			
+
+
 	}
 
 	@Override
@@ -60,22 +63,29 @@ public class MultiplayerMenu extends BasicGameState {
 		Input input = arg0.getInput();
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
-		boolean isClientSearch = (posX > windowSizeX / 2 - 80  && posX < windowSizeX / 2 + 20) && (posY < windowSizeY - 220 && posY > windowSizeY - 175);
-		boolean isServerSearch = (posX > windowSizeX / 2 - 80  && posX < windowSizeX / 2 + 20) && (posY < windowSizeY - 420 && posY > windowSizeY - 445);
+		boolean isClientButton = (posX > windowSizeX / 2 - 80  && posX < windowSizeX / 2 + 20) && (posY < windowSizeY - 220 && posY > windowSizeY - 245);
+		boolean isServerButton = (posX > windowSizeX / 2 - 80  && posX < windowSizeX / 2 + 20) && (posY < windowSizeY - 420 && posY > windowSizeY - 445);
 		boolean isClientText = (posX > windowSizeX / 2 - 150  && posX < windowSizeX / 2 + 120) && (posY < windowSizeY - 150 && posY > windowSizeY - 175);
 		if(input.isMouseButtonDown(0)) {
-			if (isClientSearch) {
+			if (isClientButton) {
+				System.out.println("client");
 				Client client = new Client();
 				if (client.getServerConnection(clientTextField.getText())) {
-					//if client connected
+					//arg1.enterState(BrickBusterLauncher.multiclient);
+				} else {
+					
 				}
+					
 			}
-			else if (isServerSearch) {
+			else if (isServerButton) {	
+				System.out.println("server");
 				Server server = new Server();
 				ipv4 = server.getIpv4();
 				serverTextField.setText(ipv4);
 				if (server.getClientConnection(ipv4)) {
-					//if server connected
+					arg1.enterState(BrickBusterLauncher.multiserver);
+				} else {
+					
 				}
 			}
 			else if (isClientText) {

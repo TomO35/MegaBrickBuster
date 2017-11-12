@@ -25,9 +25,21 @@ public class Client {
 		}
 	}
 	
-	public boolean sendData() {
+	public boolean sendFloatData() {
 		try {
 			out.writeFloat(42);
+			out.flush();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	public boolean sendIntData() {
+		try {
+			out.writeInt(42);
 			out.flush();
 			return true;
 		} catch (IOException e) {
