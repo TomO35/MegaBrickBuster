@@ -31,7 +31,6 @@ public class EndGame extends BasicGameState{
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		tfName = new TextField(arg0, arg0.getDefaultFont(), BrickBusterLauncher.WINDOW_SIZE_X / 2 - 100, BrickBusterLauncher.WINDOW_SIZE_Y / 2 - 20, 200, 40);
 		background = new Image("res/Background.jpg");
-		SCORE = BrickBusterLauncher.score;
 	}
 
 	@Override
@@ -45,6 +44,7 @@ public class EndGame extends BasicGameState{
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
+		SCORE = BrickBusterLauncher.score;
 		input = arg0.getInput();
 		tfName.setFocus(true);
 		
