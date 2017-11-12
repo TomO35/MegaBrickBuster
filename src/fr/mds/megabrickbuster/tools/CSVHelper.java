@@ -32,8 +32,8 @@ public class CSVHelper {
 	}
 	
 	public static void writeScores(List<String[]> values) throws IOException {
-
-        FileWriter writer = new FileWriter(scoresPath);
+		
+        FileWriter writer = new FileWriter(scoresPath, false);
 
         StringBuilder sb = new StringBuilder();
         for (String[] value : values) {
