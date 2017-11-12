@@ -9,11 +9,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.TextField;
 import fr.mds.megabrickbuster.launcher.BrickBusterLauncher;
 import fr.mds.megabrickbuster.model.MenuButton;
+import fr.mds.megabrickbuster.multiplayer.Client;
 import fr.mds.megabrickbuster.multiplayer.Server;
 
 public class MultiplayerMenu extends BasicGameState {
@@ -22,6 +21,7 @@ public class MultiplayerMenu extends BasicGameState {
 
 	MenuButton clientOk, serverOk;
 	TextField clientTextField, serverTextField;
+	String ipv4;
 	
 	
 	public MultiplayerMenu(int state) {
@@ -31,17 +31,13 @@ public class MultiplayerMenu extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		clientOk = new MenuButton(230, 220, 100, 25, "Search");
 		serverOk = new MenuButton(230, 420, 100, 25, "Show my Ip");
-		clientTextField = new TextField(arg0,arg0.getDefaultFont(), 140, 150, 270 , 25, new ComponentListener(){
-            public void componentActivated(AbstractComponent arg0) {
-                 
-            }});
+		clientTextField = new TextField(arg0,arg0.getDefaultFont(), 140, 150, 270 , 25);
 		serverTextField = new TextField(arg0, arg0.getDefaultFont(), 180, 350, 200 , 25);
 		clientTextField.setText("Here");
 		clientTextField.setBorderColor(Color.red);
-		clientTextField.setBackgroundColor(Color.gray);
 		serverTextField.setText("IPV4");
 		serverTextField.setBorderColor(Color.red);
-		serverTextField.setBackgroundColor(Color.gray);
+
 	}
 
 	@Override
@@ -67,16 +63,28 @@ public class MultiplayerMenu extends BasicGameState {
 		boolean isClientText = (posX > 140  && posX < 410) && (posY < BrickBusterLauncher.WINDOW_SIZE_X - 150 && posY > BrickBusterLauncher.WINDOW_SIZE_Y - 175);
 		if(input.isMouseButtonDown(0)) {
 			if (isClientSearch) {
-				//a faire
+				Client client = new Client();
+				if (client.getServerConnection(clientTextField.getText())) {
+					//if client connected
+				}
 			}
 			else if (isServerSearch) {
 				Server server = new Server();
-				serverTextField.setText(server.getIpv4());
+				ipv4 = server.getIpv4();
+				serverTextField.setText(ipv4);
+				if (server.getClientConnection(ipv4)) {
+					//if server connected
+				}
 			}
 			else if (isClientText) {
-				clientTextField.setText("ok");
-				clientTextField.setCursorVisible(true);
-				clientTextField.setFocus(true);
+				while (input.isKeyDown(Input.KEY_SPACE)){
+					
+				}
+				if(!clientTextField.hasFocus()){
+					clientTextField.setFocus(true);
+					clientTextField.setText("");
+					
+                }
 			}
 		}
 		

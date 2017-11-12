@@ -14,15 +14,45 @@ public class Client {
 		
 	}
 	
-	public void getServerConnection(String Ipv4) {
+	public  boolean getServerConnection(String ip) {
 		try {
-			socket = new Socket(InetAddress.getByName(Ipv4),2005);
+			socket = new Socket(InetAddress.getByName(ip),2005);
 			out = new DataOutputStream(socket.getOutputStream());
-			out.writeFloat(42);
-			out.flush();
-	        socket.close();
+	        return true;
 		}catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
-	}	
+	}
+	
+	public boolean sendData() {
+		try {
+			out.writeFloat(42);
+			out.flush();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	public boolean isConnected() {
+		if (socket.isConnected()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean closeConnection() {
+		try {
+			socket.close();
+			out.close();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

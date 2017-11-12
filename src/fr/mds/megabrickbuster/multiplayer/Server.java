@@ -12,6 +12,7 @@ public class Server {
 	private ServerSocket serversocket;
 	private Socket socket;
 	private DataInputStream in;
+	float message_distant;
 	
 	public Server() {
 		
@@ -27,19 +28,51 @@ public class Server {
 			return null;
 		}
 		
-		public void getClientConnection(String Ipv4) {
+		public boolean getClientConnection(String ip) {
 			try {
-				serversocket = new ServerSocket(2005, 1, InetAddress.getByName(Ipv4));
+				serversocket = new ServerSocket(2005, 1, InetAddress.getByName(ip));
 				socket = serversocket.accept();
 				in = new DataInputStream  (new DataInputStream  (socket.getInputStream()));
-		        float message_distant = in.readInt();
-		        System.out.println("ça marche !!!! : " +message_distant);
-		        socket.close();
-		        serversocket.close();
+		        return true;
 			}catch (UnknownHostException e) {
 				e.printStackTrace();
+				return false;
 			}catch (IOException e) {
 				e.printStackTrace();
+				return false;
 			}
-		}	
+		}
+		
+		public boolean getData() {
+			try {
+				message_distant = in.readInt();
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public boolean isConnected() {
+			if (socket.isConnected()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		public boolean closeConnection() {
+				try {
+					socket.close();
+					serversocket.close();
+					in.close();
+					return true;
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;
+				}
+
+			
+		}
+		
 }
