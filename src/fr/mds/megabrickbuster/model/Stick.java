@@ -40,9 +40,4 @@ public class Stick extends Rectangle {
 		}
 	}
 	
-	/*public float getPosition() {
-		float position = getX();     A voir avec Tom
-		return position;
-	}*/
-	
 }

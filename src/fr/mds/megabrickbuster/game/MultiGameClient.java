@@ -38,6 +38,8 @@ public class MultiGameClient extends Game {
 	
 	private int brickMaxY;
 	private int lives = 3;
+	
+	private float serverPos;
 
 	
 	
@@ -103,6 +105,15 @@ public class MultiGameClient extends Game {
 		// Get input about moving the stick
 		stick1.update(input, windowSizeX, arg2);
 		
+		// Send the position of the stick to the client
+				MultiplayerMenu.server.sendFloatData(stick1.getX());
+				
+				//get the position of the client stick
+				serverPos = MultiplayerMenu.client.getFloatData();
+				if (serverPos != 666) {
+					stick2.setX(serverPos);
+				}
+		
 		// Handle all the ball's movements
 		if (ball1.isMoving()) {	
 			
@@ -133,58 +144,6 @@ public class MultiGameClient extends Game {
 			}
 			ball1.move();
 		}			
-	}
-
-	// Handle collisions with bricks 
-	public Brick ballToBrick(Ball ball) {
-		for (Brick brick : bricks) {
-			if (ball.intersects(brick)) {
-				// Handle the reaction of the ball in collision
-				if(ball.getCenterY() >= brick.getMinY() - 4 && ball.getCenterY() <= brick.getMaxY() + 4) {
-					ball.bounce("x");
-				}
-				else if(ball.getCenterX() >= brick.getMinX() - 4 && ball.getCenterX() <= brick.getMaxX() + 4) {
-					ball.bounce("y");
-				}
-				else {
-					ball.bounce("angle");
-				}
-				SCORE += 1;
-				return brick;
-			}
-		}
-		return null;
-	}
-
-	// Handle collision with the stick
-	public void ballToStick(Ball ball, Stick stick) {
-		if (ball.intersects(stick)) {
-			System.out.println("Before : " + ball.getAngle() + "°");
-			if ((ball.getCenterX() >= stick.getCenterX() + 2 && ball.getCenterX() <= stick.getMaxX()) && ball.getSpeedY() > 0 && ball.getAngle() > 20) {
-				ball.setSpeedToAngle(-15);
-				System.out.println("After left : " + ball.getAngle() + "°");
-			} else if ((ball.getCenterX() <= stick.getCenterX() - 2 && ball.getCenterX() >= stick.getMinX()) && ball.getSpeedY() > 0 && ball.getAngle() < 160){
-				ball.setSpeedToAngle(15);
-				System.out.println("after right : " + ball.getAngle() + "°");
-			} else {
-				ball.bounce("y");
-				System.out.println("After else : " + ball.getAngle() + "°");
-			}
-		}
-	}
-	
-	// Handle collisions with window's Border
-	public Ball ballToBorder(Ball ball) {
-		if (ball.getMaxX() >= windowSizeX || ball.getMinX() <= 0) {
-			ball.bounce("x");
-		}
-		if (ball.getMinY() <= 0) {
-			ball.bounce("y");
-		}
-		if (ball.getMinY() > windowSizeY) {
-			return ball;
-		}
-		return null;
 	}
 	
 	@Override

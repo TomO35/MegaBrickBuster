@@ -1,6 +1,7 @@
 package fr.mds.megabrickbuster.multiplayer;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -11,8 +12,9 @@ public class Server {
 	
 	private ServerSocket serversocket;
 	private Socket socket;
-	private DataInputStream in;
-	float message_distant;
+	private DataInputStream inServer;
+	private DataOutputStream OutServer;
+	float valeur;
 	
 	public Server() {
 		
@@ -32,7 +34,8 @@ public class Server {
 			try {
 				serversocket = new ServerSocket(2005, 1, InetAddress.getByName(ip));
 				socket = serversocket.accept();
-				in = new DataInputStream  (new DataInputStream  (socket.getInputStream()));
+				inServer = new DataInputStream  (new DataInputStream  (socket.getInputStream()));
+				OutServer = new DataOutputStream(socket.getOutputStream());
 		        return true;
 			}catch (UnknownHostException e) {
 				e.printStackTrace();
@@ -43,23 +46,25 @@ public class Server {
 			}
 		}
 		
-		public boolean getIntData() {
+		public boolean sendFloatData(float pos) {
 			try {
-				message_distant = in.readInt();
+				OutServer.writeFloat(pos);
+				OutServer.flush();
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();
 				return false;
 			}
+			
 		}
 		
-		public boolean getFloatData() {
+		public float getFloatData() {
 			try {
-				message_distant = in.readFloat();
-				return true;
+				valeur = inServer.readFloat();
+				return valeur;
 			} catch (IOException e) {
 				e.printStackTrace();
-				return false;
+				return 666;
 			}
 		}
 		
@@ -75,7 +80,7 @@ public class Server {
 				try {
 					socket.close();
 					serversocket.close();
-					in.close();
+					inServer.close();
 					return true;
 				} catch (IOException e) {
 					e.printStackTrace();

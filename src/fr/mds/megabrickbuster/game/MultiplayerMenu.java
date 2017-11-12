@@ -17,6 +17,8 @@ import fr.mds.megabrickbuster.multiplayer.Server;
 public class MultiplayerMenu extends BasicGameState {
 	
 	private static int STATE = 5;
+	public static final Server server = new Server();
+	public static final Client client = new Client();
 
 	private int windowSizeX, windowSizeY;
 	MenuButton clientButton, serverButton;
@@ -68,24 +70,17 @@ public class MultiplayerMenu extends BasicGameState {
 		boolean isClientText = (posX > windowSizeX / 2 - 150  && posX < windowSizeX / 2 + 120) && (posY < windowSizeY - 150 && posY > windowSizeY - 175);
 		if(input.isMouseButtonDown(0)) {
 			if (isClientButton) {
-				System.out.println("client");
-				Client client = new Client();
 				if (client.getServerConnection(clientTextField.getText())) {
-					//arg1.enterState(BrickBusterLauncher.multiclient);
-				} else {
-					
+					arg1.enterState(BrickBusterLauncher.multiclient);
 				}
+				arg1.enterState(BrickBusterLauncher.multiclient);
 					
 			}
 			else if (isServerButton) {	
-				System.out.println("server");
-				Server server = new Server();
 				ipv4 = server.getIpv4();
 				serverTextField.setText(ipv4);
 				if (server.getClientConnection(ipv4)) {
 					arg1.enterState(BrickBusterLauncher.multiserver);
-				} else {
-					
 				}
 			}
 			else if (isClientText) {

@@ -1,5 +1,6 @@
 package fr.mds.megabrickbuster.multiplayer;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -8,7 +9,9 @@ import java.net.Socket;
 public class Client {
 	
 	private Socket socket;
-	private DataOutputStream out;
+	private DataOutputStream outClient;
+	private DataInputStream inClient;
+	float valeur;
 	
 	public Client() {
 		
@@ -17,7 +20,8 @@ public class Client {
 	public  boolean getServerConnection(String ip) {
 		try {
 			socket = new Socket(InetAddress.getByName(ip),2005);
-			out = new DataOutputStream(socket.getOutputStream());
+			outClient = new DataOutputStream(socket.getOutputStream());
+			inClient = new DataInputStream  (new DataInputStream  (socket.getInputStream()));
 	        return true;
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -25,28 +29,25 @@ public class Client {
 		}
 	}
 	
-	public boolean sendFloatData() {
+	public boolean sendFloatData(float pos) {
 		try {
-			out.writeFloat(42);
-			out.flush();
+			outClient.writeFloat(pos);
+			outClient.flush();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
 	}
 	
-	public boolean sendIntData() {
+	public float getFloatData() {
 		try {
-			out.writeInt(42);
-			out.flush();
-			return true;
+			valeur = inClient.readFloat();
+			return valeur;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			return 666;
 		}
-		
 	}
 	
 	public boolean isConnected() {
@@ -60,7 +61,7 @@ public class Client {
 	public boolean closeConnection() {
 		try {
 			socket.close();
-			out.close();
+			outClient.close();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
